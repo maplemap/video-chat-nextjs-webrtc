@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Avatar from './avatar.tsx';
+import Avatar from './avatar';
 import Time from './time';
 
 export default function Navbar() {
