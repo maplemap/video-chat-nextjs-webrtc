@@ -1,5 +1,6 @@
 'use client';
 
+import { LuMoreVertical } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -18,6 +19,7 @@ export default function MyAvatar() {
             </Avatar>
             <div className="hidden font-medium md:block">Adam Joseph</div>
           </div>
+          <LuMoreVertical className="hidden h-6 w-6 md:block" />
         </div>
       </PopoverTrigger>
       <PopoverContent>
