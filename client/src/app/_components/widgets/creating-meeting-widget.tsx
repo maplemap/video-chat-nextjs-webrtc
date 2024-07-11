@@ -25,7 +25,7 @@ export function CreatingMeetingWidget() {
   } = useForm<CreateMeetingFields>({
     mode: 'onBlur',
     defaultValues: {
-      code: '',
+      name: '',
     },
     resolver: zodResolver(CreateMeetingValidationSchema),
   });
