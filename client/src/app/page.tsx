@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import Navbar from '@/components/navbar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -6,7 +7,10 @@ import {
   RecentMeetingWidget,
 } from './_components/widgets';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  console.log('session', session);
+
   return (
     <main className="flex h-screen flex-col">
       <Navbar />

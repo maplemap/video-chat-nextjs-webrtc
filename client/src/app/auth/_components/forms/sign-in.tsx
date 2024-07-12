@@ -2,10 +2,12 @@
 
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { GithubButton, GoogleButton } from '@/app/auth/_components/buttons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { ROUTE } from '@/constants';
 import { SignInFields, SignInValidationSchema } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -22,6 +24,8 @@ export function SignInForm() {
     },
     resolver: zodResolver(SignInValidationSchema),
   });
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') ?? ROUTE.MAIN;
 
   const onSubmit = async (data: SignInFields) => {
     console.log(data);
@@ -53,12 +57,12 @@ export function SignInForm() {
         </Button>
         <Separator className="my-5" />
         <div className="space-y-2">
-          <GoogleButton />
-          <GithubButton />
+          <GoogleButton callbackUrl={callbackUrl} />
+          <GithubButton callbackUrl={callbackUrl} />
         </div>
         <div className="mt-3 text-sm text-secondary">
           Don't have an account yet? Please&nbsp;
-          <Link href="/auth/sign-up" className="cursor-pointer text-blue-500">
+          <Link href={ROUTE.SIGN_UP} className="cursor-pointer text-blue-500">
             Sign Up
           </Link>
         </div>
