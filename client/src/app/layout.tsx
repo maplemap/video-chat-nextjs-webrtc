@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { auth } from '@/auth';
 import { ThemeProvider } from '@/providers';
+import { QueryProvider } from '@/providers/query';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -22,14 +23,16 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Toaster />
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
+      <QueryProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body className={inter.className}>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </QueryProvider>
     </SessionProvider>
   );
 }
