@@ -7,12 +7,20 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 export const {
   handlers: { GET, POST },
   signIn,
-  signOut,
   auth,
 } = NextAuth({
   pages: {
     signIn: ROUTE.SIGN_IN,
     error: ROUTE.ERROR,
+  },
+  callbacks: {
+    async session({ session, token }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+
+        return session;
+      }
+    },
   },
   session: { strategy: 'jwt' },
   adapter: PrismaAdapter(db),

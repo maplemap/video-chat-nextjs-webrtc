@@ -20,6 +20,11 @@ export default function MyAvatar() {
   const userImage = data?.user?.image ?? '';
   const userFullName = data?.user?.name ?? '';
 
+  if (!data) {
+    return null;
+  }
+  console.log(data.user);
+
   return (
     <Popover>
       <PopoverTrigger>
