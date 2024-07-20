@@ -1,8 +1,15 @@
 import { z } from 'zod';
-import { validateCode } from '@/lib/utils';
+import { getMeetingByCode } from '@/actions/get/get-meeting-by-code';
+import { validateMeetingCode } from '@/lib/utils';
 
 export const JoinMeetingValidationSchema = z.object({
-  code: z.string().refine(validateCode, 'Invalid code'),
+  code: z
+    .string()
+    .refine(validateMeetingCode, 'Invalid code')
+    .refine(async (code) => {
+      const meeting = await getMeetingByCode(code);
+      return Boolean(meeting);
+    }, 'Meeting not found :('),
 });
 export const CreateMeetingValidationSchema = z.object({
   name: z

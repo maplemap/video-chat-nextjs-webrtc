@@ -2,26 +2,32 @@
 
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { JoinMeetingFields, JoinMeetingValidationSchema } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export function JoinMeetingWidget() {
-  const { register, handleSubmit, watch } = useForm<JoinMeetingFields>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { isSubmitting },
+  } = useForm<JoinMeetingFields>({
     mode: 'onBlur',
     defaultValues: {
       code: '',
     },
     resolver: zodResolver(JoinMeetingValidationSchema),
   });
+  const router = useRouter();
   const watchCode = watch('code');
 
   const onSubmit: SubmitHandler<JoinMeetingFields> = async (data) => {
-    console.log(data.code);
+    router.push(data.code);
   };
   const onError: SubmitErrorHandler<JoinMeetingFields> = async (data) => {
-    console.log(data);
     toast.error(data.code?.message || '');
   };
   return (
@@ -36,8 +42,12 @@ export function JoinMeetingWidget() {
           placeholder="Enter code"
           maxLength={18}
         />
-        <Button type="submit" className="sm:rounded-2xl">
-          Join
+        <Button
+          type="submit"
+          className="sm:rounded-2xl"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Validating' : 'Join'}
         </Button>
       </form>
       <div className="ml-2 mt-1">{watchCode.length}/18</div>

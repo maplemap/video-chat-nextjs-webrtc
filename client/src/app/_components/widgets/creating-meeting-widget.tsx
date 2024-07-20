@@ -1,6 +1,8 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,6 +13,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useCreateMeeting } from '@/hooks/mutations/use-create-meeting';
+import { useMeeting } from '@/hooks/state/use-meeting';
 import {
   CreateMeetingFields,
   CreateMeetingValidationSchema,
@@ -30,8 +34,31 @@ export function CreatingMeetingWidget() {
     resolver: zodResolver(CreateMeetingValidationSchema),
   });
 
+  const {
+    mutateAsync,
+    reset: resetMutation,
+    isIdle: isMutationIdle,
+    isPending: isMutationPending,
+    isSuccess: isMutationSuccess,
+  } = useCreateMeeting();
+  const setMeeting = useMeeting((state) => state.setMeeting);
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<CreateMeetingFields> = async (data) => {
-    console.log(data.name);
+    const onSuccess = (res) => {
+      if (res?.error) {
+        toast.error(res.error);
+        resetMutation();
+      }
+      if (res.success) {
+        toast.success('Meeting was created successfully');
+        setMeeting(res.success);
+        console.log(res.success.code);
+        router.push(res.success.code);
+      }
+    };
+
+    await mutateAsync(data, { onSuccess });
   };
 
   return (
@@ -58,8 +85,15 @@ export function CreatingMeetingWidget() {
               {errors.name.message}
             </span>
           )}
-          <Button className="mt-2 w-full" type="submit" size="sm">
-            Create new meeting
+          <Button
+            disabled={isMutationPending}
+            className="mt-2 w-full"
+            type="submit"
+            size="sm"
+          >
+            {isMutationIdle && 'Create new meeting'}
+            {isMutationPending && 'Creating new meeting'}
+            {isMutationSuccess && 'Meeting was created'}
           </Button>
         </form>
       </DialogContent>
