@@ -1,5 +1,13 @@
 "use client";
 
+import StreamsContainer from "../containers/streams-container";
+import { MyStream } from "../streams";
+
 export default function Meeting() {
-  return <div>Meeting</div>;
+  return (
+    <StreamsContainer count={1}>
+      <MyStream />
+      {/* Other streams */}
+    </StreamsContainer>
+  );
 }

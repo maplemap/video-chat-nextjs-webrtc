@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import { Code } from "@/types";
-import { useEffect, useState } from "react";
-import Lobby from "./_components/lobby";
-import Meeting from "./_components/meeting";
-import { useMeeting } from "@/hooks/state/use-meeting";
-import getMeetingByCode from "@/actions/get/get-meeting-by-code";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { Route } from "../../../routes";
-import { Hearts } from "react-loader-spinner";
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Hearts } from 'react-loader-spinner';
+import { useShallow } from 'zustand/react/shallow';
+import { useRouter } from 'next/navigation';
+import getMeetingByCode from '@/actions/get/get-meeting-by-code';
+import { MeetingProvider } from '@/app/[code]/_components/providers';
+import { useMeeting } from '@/hooks/state/use-meeting';
+import { Code } from '@/types';
+import { Route } from '../../../routes';
+import Lobby from './_components/lobby';
+import Meeting from './_components/meeting';
 
 type Props = {
   params: { code: Code };
@@ -18,7 +20,12 @@ export default function MeetingPage({ params: { code } }: Props) {
   const [isLobby, setIsLobby] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const { meeting, setMeeting } = useMeeting();
+  const { meeting, setMeeting } = useMeeting(
+    useShallow((state) => ({
+      meeting: state.meeting,
+      setMeeting: state.setMeeting,
+    })),
+  );
   const router = useRouter();
   useEffect(() => {
     if (meeting) {
@@ -30,7 +37,7 @@ export default function MeetingPage({ params: { code } }: Props) {
         setMeeting(res);
         setIsLoading(false);
       } else {
-        toast.error("Meeting not found !");
+        toast.error('Meeting not found !');
         router.push(Route.MAIN);
       }
     });
@@ -52,5 +59,9 @@ export default function MeetingPage({ params: { code } }: Props) {
     );
   }
 
-  return <>{isLobby ? <Lobby /> : <Meeting />}</>;
+  return (
+    <MeetingProvider joinMeeting={() => setIsLobby(false)}>
+      {isLobby ? <Lobby /> : <Meeting />}
+    </MeetingProvider>
+  );
 }
