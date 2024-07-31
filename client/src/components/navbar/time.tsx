@@ -1,23 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import { useInterval } from 'usehooks-ts';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { useInterval } from "usehooks-ts";
 
 type Props = {
   className?: string;
 };
-
 export default function Time({ className }: Props) {
-  const [time, setTime] = useState('');
-
+  const [time, setTime] = useState<string>("");
   useInterval(() => {
-    setTime(dayjs().format('HH:mm | ddd, MMM D'));
+    setTime(dayjs().format("HH:mm | ddd, MMM D"));
   }, 1000);
-
   return (
-    <span className={cn('text-md sm:text-lg md:text-xl', className)}>
+    <span className={cn("text-md sm:text-lg md:text-xl", className)}>
       {time}
     </span>
   );

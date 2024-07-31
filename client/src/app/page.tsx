@@ -1,16 +1,12 @@
-import { auth } from '@/auth';
-import Navbar from '@/components/navbar';
-import { Separator } from '@/components/ui/separator';
+import Navbar from "@/components/navbar";
 import {
-  CreatingMeetingWidget,
+  CreateMeetingWidget,
   JoinMeetingWidget,
-  RecentMeetingWidget,
-} from './_components/widgets';
+  RecentMeetingsWidget,
+} from "./_components/widgets";
+import { Separator } from "@/components/ui/separator";
 
-export default async function Home() {
-  const session = await auth();
-  console.log('session', session);
-
+export default function Home() {
   return (
     <main className="flex h-screen flex-col">
       <Navbar />
@@ -20,14 +16,14 @@ export default async function Home() {
           <h3 className="mb-2 mt-5 text-lg">Join meeting with code</h3>
           <JoinMeetingWidget />
           <h3 className="mb-2 mt-5 text-lg">Create new meeting</h3>
-          <CreatingMeetingWidget />
+          <CreateMeetingWidget />
           <Separator className="my-5" />
-          <h2 className="text-xl font-bold">Recent meeting</h2>
-          <RecentMeetingWidget />
+          <h2 className="text-xl font-bold">Recent meetings</h2>
+          <RecentMeetingsWidget />
         </div>
         <div className="flex items-center justify-center rounded-xl bg-light-primary p-5 dark:bg-dark-primary">
-          <div className="p5 text-center text-2xl">
-            Video chat app using Next.js, Socket.io, Tailwind CSS, and WebRTC
+          <div className="p-5 text-center text-2xl">
+            Video chat app using Next.js Socket.io WebRTC
           </div>
         </div>
       </div>

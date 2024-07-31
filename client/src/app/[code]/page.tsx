@@ -1,16 +1,56 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Lobby from '@/app/[code]/_components/lobby';
-import Meeting from '@/app/[code]/_components/meeting';
-import { Code } from '@/types';
+import { Code } from "@/types";
+import { useEffect, useState } from "react";
+import Lobby from "./_components/lobby";
+import Meeting from "./_components/meeting";
+import { useMeeting } from "@/hooks/state/use-meeting";
+import getMeetingByCode from "@/actions/get/get-meeting-by-code";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Route } from "../../../routes";
+import { Hearts } from "react-loader-spinner";
 
 type Props = {
   params: { code: Code };
 };
-
 export default function MeetingPage({ params: { code } }: Props) {
-  const [isLobby, setIsLobby] = useState(true);
+  const [isLobby, setIsLobby] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  return isLobby ? <Lobby /> : <Meeting />;
+  const { meeting, setMeeting } = useMeeting();
+  const router = useRouter();
+  useEffect(() => {
+    if (meeting) {
+      setIsLoading(false);
+      return;
+    }
+    getMeetingByCode(code).then((res) => {
+      if (res) {
+        setMeeting(res);
+        setIsLoading(false);
+      } else {
+        toast.error("Meeting not found !");
+        router.push(Route.MAIN);
+      }
+    });
+  }, [code, meeting, setMeeting, router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Hearts
+          height="120"
+          width="120"
+          color="#4a8be0"
+          ariaLabel="hearts-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
+
+  return <>{isLobby ? <Lobby /> : <Meeting />}</>;
 }

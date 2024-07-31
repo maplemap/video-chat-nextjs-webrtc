@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { Nullable } from '@/types';
-import { Meeting } from '@prisma/client';
+import { Nullable } from "@/types";
+import { Meeting } from "@prisma/client";
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
 type State = {
   meeting: Nullable<Meeting>;

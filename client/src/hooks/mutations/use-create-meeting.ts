@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { createMeeting } from '@/actions/post/create-meeting';
-import { CreateMeetingFields } from '@/types/forms';
+import createMeeting from "@/actions/post/create-meeting";
+import { useMutation } from "@tanstack/react-query";
 
 export const useCreateMeeting = () => {
-  return useMutation({ mutationFn: createMeeting });
+  const mutation = useMutation({ mutationFn: createMeeting });
+  return mutation;
 };

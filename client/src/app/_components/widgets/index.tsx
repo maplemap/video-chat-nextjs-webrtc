@@ -1,3 +1,4 @@
-export { JoinMeetingWidget } from './join-meeting-widget';
-export { CreatingMeetingWidget } from './creating-meeting-widget';
-export { RecentMeetingWidget } from './recent-meeting-widget';
+import JoinMeetingWidget from "./join-meeting-widget";
+import CreateMeetingWidget from "./create-meeting-widget";
+import RecentMeetingsWidget from "./recent-meeting-widget";
+export { JoinMeetingWidget, CreateMeetingWidget, RecentMeetingsWidget };

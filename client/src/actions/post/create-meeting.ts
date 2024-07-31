@@ -1,31 +1,30 @@
-'use server';
+"use server";
 
-import { auth } from '@/auth';
-import { db } from '@/lib/db';
-import { generateMeetingCode } from '@/lib/utils';
 import {
   CreateMeetingFields,
   CreateMeetingValidationSchema,
-} from '@/types/forms';
+} from "@/types/forms";
+import { auth } from "../../../auth";
+import { db } from "@/lib/db";
+import { generateCode } from "@/lib/utils";
 
-export const createMeeting = async (data: CreateMeetingFields) => {
+export default async function createMeeting(data: CreateMeetingFields) {
   const session = await auth();
   if (!session) {
-    return { error: 'Forbidden' };
+    return { error: "Forbidden !" };
   }
-
-  const validationResult = CreateMeetingValidationSchema.safeParse(data);
-  if (!validationResult.success) {
-    return { error: 'Invalid data' };
+  const validationRes = CreateMeetingValidationSchema.safeParse(data);
+  if (!validationRes.success) {
+    return { error: "Invalid name !" };
   }
 
   const meeting = await db.meeting.create({
     data: {
       ownerId: session.user.id,
-      code: generateMeetingCode(),
-      name: validationResult.data.name,
+      code: generateCode(),
+      name: validationRes.data.name,
     },
   });
 
   return { success: meeting };
-};
+}

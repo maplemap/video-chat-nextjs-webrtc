@@ -1,12 +1,13 @@
-'use server';
+"use server";
 
-import { db } from '@/lib/db';
-import { Code } from '@/types';
+import { db } from "@/lib/db";
+import { Code } from "@/types";
 
-export const getMeetingByCode = async (code: Code) => {
+export default async function getMeetingByCode(code: Code) {
   try {
-    return db.meeting.findUnique({ where: { code } });
+    const meeting = await db.meeting.findUnique({ where: { code } });
+    return meeting;
   } catch (error) {
     return null;
   }
-};
+}

@@ -1,6 +1,5 @@
-import { NextResponse } from 'next/server';
-import { auth } from '@/auth';
-import { ROUTE, apiAuthPrefix, authRoutes } from '@/constants';
+import { auth } from "../auth";
+import { Route, apiAuthPrefix, authRoutes } from "../routes";
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -9,13 +8,13 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (isApiAuthURL) {
-    return NextResponse.next();
+    return null;
   }
   if (isAuthRoute) {
     if (isAuth) {
-      return Response.redirect(new URL(ROUTE.MAIN, nextUrl));
+      return Response.redirect(new URL(Route.MAIN, nextUrl));
     }
-    return NextResponse.next();
+    return null;
   }
 
   if (!isAuth) {
@@ -27,13 +26,13 @@ export default auth((req) => {
     const encodedCallbackURL = encodeURIComponent(callbackURL);
 
     return Response.redirect(
-      new URL(`${ROUTE.SIGN_IN}?callbackUrl=${encodedCallbackURL}`, nextUrl),
+      new URL(`${Route.SIGN_IN}?callbackUrl=${encodedCallbackURL}`, nextUrl),
     );
   }
 
-  return NextResponse.next();
+  return null;
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

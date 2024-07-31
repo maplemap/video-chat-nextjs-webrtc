@@ -1,14 +1,24 @@
-import { type ClassValue, clsx } from 'clsx';
-import { nanoid } from 'nanoid';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { nanoid } from "nanoid";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const validateMeetingCode = (code: string) => {
-  const allowChars = /^[0-9A-Za-z_]{18}$/;
-  return allowChars.test(code);
-};
+export function generateCode() {
+  return nanoid(18);
+}
 
-export const generateMeetingCode = () => nanoid(18);
+export function validateCode(code: string) {
+  const allowedChars = /^[0-9A-Za-z_\-]{18}$/;
+  return allowedChars.test(code);
+}
+
+export function initials(fullname: string) {
+  return fullname
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+}
