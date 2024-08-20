@@ -2,7 +2,10 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, initials } from "@/lib/utils";
+import hark from "hark";
+import { useEffect } from "react";
 import { LuMic, LuMicOff } from "react-icons/lu";
+import { useToggle } from "usehooks-ts";
 type Props = {
   muted: boolean;
   visible: boolean;
@@ -19,8 +22,24 @@ export default function VideoContainer({
   stream,
   children,
 }: Props) {
+  const [speaking, toggle] = useToggle(false);
+  useEffect(() => {
+    let speechEvents = hark(stream, {});
+    speechEvents.on("speaking", toggle);
+    speechEvents.on("stopped_speaking", toggle);
+    return () => {
+      speechEvents.stop();
+    };
+  }, [stream, toggle]);
   return (
-    <div className="relative h-full overflow-hidden rounded-xl">
+    <div
+      className={cn(
+        "relative h-full overflow-hidden rounded-xl border border-transparent",
+        {
+          "border-blue-500": speaking,
+        },
+      )}
+    >
       <div
         className={cn("h-full", {
           hidden: !visible,

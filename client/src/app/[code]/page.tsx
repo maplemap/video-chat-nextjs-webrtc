@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import { Hearts } from 'react-loader-spinner';
-import { useShallow } from 'zustand/react/shallow';
-import { useRouter } from 'next/navigation';
-import getMeetingByCode from '@/actions/get/get-meeting-by-code';
-import { MeetingProvider } from '@/app/[code]/_components/providers';
-import { useMeeting } from '@/hooks/state/use-meeting';
-import { Code } from '@/types';
-import { Route } from '../../../routes';
-import Lobby from './_components/lobby';
-import Meeting from './_components/meeting';
+import { Code } from "@/types";
+import { useEffect, useState } from "react";
+import Lobby from "./_components/lobby";
+import Meeting from "./_components/meeting";
+import { useMeeting } from "@/hooks/state/use-meeting";
+import getMeetingByCode from "@/actions/get/get-meeting-by-code";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Route } from "../../../routes";
+import { Hearts } from "react-loader-spinner";
+import { useShallow } from "zustand/react/shallow";
+import { MeetingProvider } from "./_components/providers";
 
 type Props = {
   params: { code: Code };
@@ -37,7 +37,7 @@ export default function MeetingPage({ params: { code } }: Props) {
         setMeeting(res);
         setIsLoading(false);
       } else {
-        toast.error('Meeting not found !');
+        toast.error("Meeting not found !");
         router.push(Route.MAIN);
       }
     });

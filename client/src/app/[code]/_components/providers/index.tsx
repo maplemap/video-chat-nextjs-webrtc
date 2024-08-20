@@ -1,1 +1,3 @@
-export { MeetingProvider } from './meeting-provider';
+import MeetingProvider from "./meeting-provider";
+
+export { MeetingProvider };

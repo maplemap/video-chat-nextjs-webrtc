@@ -1,5 +1,6 @@
 import { auth } from "../auth";
 import { Route, apiAuthPrefix, authRoutes } from "../routes";
+import { NextResponse } from 'next/server';
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -8,13 +9,13 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (isApiAuthURL) {
-    return null;
+    return NextResponse.next();
   }
   if (isAuthRoute) {
     if (isAuth) {
       return Response.redirect(new URL(Route.MAIN, nextUrl));
     }
-    return null;
+    return NextResponse.next();
   }
 
   if (!isAuth) {

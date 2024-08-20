@@ -3,6 +3,8 @@
 import Time from "@/components/navbar/time";
 import { Button } from "@/components/ui/button";
 import { useMeeting } from "@/hooks/state/use-meeting";
+import { usePeer } from "@/hooks/state/use-peer";
+import { useSocket } from "@/hooks/state/use-socket";
 import { useStream } from "@/hooks/state/use-stream";
 import { MediaKind } from "@/types";
 import { useRouter } from "next/navigation";
@@ -16,10 +18,16 @@ import {
   LuVideoOff,
 } from "react-icons/lu";
 import { useCopyToClipboard } from "usehooks-ts";
+import { useShallow } from "zustand/react/shallow";
 
 export default function ControlPanel() {
   const { muted, visible, toggleAudio, toggleVideo } = useStream();
-  const meeting = useMeeting((state) => state.meeting);
+  const { meeting, connections } = useMeeting(
+    useShallow((state) => ({
+      meeting: state.meeting,
+      connections: state.connections,
+    })),
+  );
   const [copiedText, copy] = useCopyToClipboard();
   const handleCopy = (text: string) => {
     copy(text)
@@ -31,23 +39,24 @@ export default function ControlPanel() {
       });
   };
   const router = useRouter();
+  const socket = useSocket();
+  const myPeerId = usePeer((state) => state.myPeerId);
   const toggle = (kind: MediaKind) => {
     switch (kind) {
       case "audio":
         toggleAudio();
-        // socket.emit("user:toggle-audio", myPeerId);
+        socket.emit("user:toggle-audio", myPeerId);
         break;
       case "video":
-        toggleVideo();
-        // toggleVideo((newTrack: MediaStreamTrack) => {
-        //   Object.values(connections).forEach((el) => {
-        //     const sender = el.peerConnection?.getSenders().find((s) => {
-        //       return s.track?.kind === newTrack.kind;
-        //     });
-        //     sender?.replaceTrack(newTrack);
-        //   });
-        // });
-        // socket.emit("user:toggle-video", myPeerId);
+        toggleVideo((newTrack: MediaStreamTrack) => {
+          Object.values(connections).forEach((el) => {
+            const sender = el.peerConnection?.getSenders().find((s) => {
+              return s.track?.kind === newTrack.kind;
+            });
+            sender?.replaceTrack(newTrack);
+          });
+        });
+        socket.emit("user:toggle-video", myPeerId);
         break;
       default:
         break;

@@ -4,7 +4,7 @@ import { memo } from "react";
 
 const PeerVideo = ({
   stream,
-  isMe,
+  isMe = false,
 }: {
   stream: MediaStream;
   isMe?: boolean;
@@ -18,6 +18,14 @@ const PeerVideo = ({
         autoPlay
         muted={isMe}
         className="aspect-video h-full -scale-x-100 object-contain"
+      />
+      <audio
+        ref={(node) => {
+          if (node) node.srcObject = stream;
+        }}
+        autoPlay
+        muted={isMe}
+        className="hidden"
       />
     </div>
   );
