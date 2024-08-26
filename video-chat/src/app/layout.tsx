@@ -1,4 +1,5 @@
 import { SessionProvider } from 'next-auth/react';
+import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import type { Metadata } from 'next';
 import { Roboto_Mono } from 'next/font/google';
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const session = await auth();
   return (

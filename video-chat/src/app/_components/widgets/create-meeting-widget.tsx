@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -36,6 +35,7 @@ export default function CreateMeetingWidget() {
     useCreateMeeting();
   const setMeeting = useMeeting((state) => state.setMeeting);
   const router = useRouter();
+
   const onSubmit: SubmitHandler<CreateMeetingFields> = async (data) => {
     await mutateAsync(data, {
       onSuccess: (res) => {
@@ -55,7 +55,7 @@ export default function CreateMeetingWidget() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full">Create new meeting</Button>
+        <Button className="h-[40px] w-full">Create new meeting</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -71,9 +71,7 @@ export default function CreateMeetingWidget() {
               className="mt-2 h-10"
               maxLength={110}
             />
-            <span className="ml-5 text-xs text-red-500">
-              {errors.name?.message}
-            </span>{" "}
+            <span className="text-sm text-red-500">{errors.name?.message}</span>{' '}
           </div>
           <Button
             disabled={isPending}

@@ -1,7 +1,7 @@
-import { Meeting } from "@prisma/client";
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+import { Meeting } from '@prisma/client';
 
 type State = {
   meetings: Meeting[];
@@ -17,7 +17,14 @@ export const useRecentMeetings = create<State & Actions>()(
         meetings: [],
         addMeeting: (meeting) =>
           set((state) => {
-            state.meetings = [meeting, ...state.meetings].slice(0, 10);
+            const currentMeetings = get().meetings;
+            const isMeetingExistInState = currentMeetings.find(
+              ({ id }) => id === meeting.id,
+            );
+
+            if (!isMeetingExistInState) {
+              state.meetings = [meeting, ...state.meetings].slice(0, 10);
+            }
           }),
       }),
       {

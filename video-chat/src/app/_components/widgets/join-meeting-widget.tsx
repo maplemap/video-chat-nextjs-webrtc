@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { JoinMeetingFields, JoinMeetingValidationSchema } from "@/types/forms";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { JoinMeetingFields, JoinMeetingValidationSchema } from '@/types/forms';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function JoinMeetingWidget() {
   const {
@@ -15,37 +15,38 @@ export default function JoinMeetingWidget() {
     watch,
     formState: { isSubmitting },
   } = useForm<JoinMeetingFields>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
-      code: "",
+      code: '',
     },
     resolver: zodResolver(JoinMeetingValidationSchema),
   });
-  const watchCode = watch("code");
+  const watchCode = watch('code');
   const router = useRouter();
   const onSubmit: SubmitHandler<JoinMeetingFields> = async (data) => {
     router.push(data.code);
   };
   const onError: SubmitErrorHandler<JoinMeetingFields> = async (data) => {
-    toast.error(data.code?.message || "");
+    toast.error(data.code?.message || '');
   };
   return (
     <>
+      <h3 className="mb-2 text-lg">Join meeting with code</h3>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
         className="grid gap-3 sm:grid-cols-[3fr,1fr]"
       >
         <Input
-          {...register("code")}
-          className="h-14 sm:rounded-2xl"
+          {...register('code')}
+          className="h-10"
           placeholder="Enter code"
           maxLength={18}
         />
-        <Button type="submit" className="sm:rounded-2xl">
-          {isSubmitting ? "Validating" : "Join"}
-        </Button>
+        <Button type="submit">{isSubmitting ? 'Validating' : 'Join'}</Button>
       </form>
-      <div className="ml-2 mt-1">{watchCode.length}/18</div>
+      <div className="border-black- ml-2 mt-2 text-lg">
+        {watchCode.length}/18
+      </div>
     </>
   );
 }

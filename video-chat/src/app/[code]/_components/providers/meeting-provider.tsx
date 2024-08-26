@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useMeeting } from "@/hooks/state/use-meeting";
-import { usePeer } from "@/hooks/state/use-peer";
-import { useRecentMeetings } from "@/hooks/state/use-recent-meetings";
-import { useSocket } from "@/hooks/state/use-socket";
-import { useStream } from "@/hooks/state/use-stream";
-import { PeerId } from "@/types";
-import { useSession } from "next-auth/react";
-import { ReactNode, useEffect } from "react";
-import toast from "react-hot-toast";
-import { useShallow } from "zustand/react/shallow";
+import { useSession } from 'next-auth/react';
+import { ReactNode, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useShallow } from 'zustand/react/shallow';
+import { useMeeting } from '@/hooks/state/use-meeting';
+import { usePeer } from '@/hooks/state/use-peer';
+import { useRecentMeetings } from '@/hooks/state/use-recent-meetings';
+import { useSocket } from '@/hooks/state/use-socket';
+import { useStream } from '@/hooks/state/use-stream';
+import { PeerId } from '@/types';
 
 type Props = {
   children: ReactNode;
@@ -51,16 +51,19 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
     })),
   );
   const { peer, myPeerId, setMyPeerId, setPeer } = usePeer();
-  const addMeeting = useRecentMeetings((state) => state.addMeeting);
+  const addRecentMeeting = useRecentMeetings((state) => state.addMeeting);
+
   useEffect(() => {
-    if (!meeting) return;
-    socket.connect();
-    addMeeting(meeting);
+    if (meeting) {
+      socket.connect();
+      addRecentMeeting(meeting);
+    }
+
     return () => {
       window.location.reload();
       socket.disconnect();
     };
-  }, [socket, meeting, addMeeting]);
+  }, [socket, meeting, addRecentMeeting]);
 
   useEffect(() => {
     (async function createPeer() {
@@ -137,13 +140,13 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
   useEffect(() => {
     if (!peer || !stream) return;
 
-    peer.on("call", (call: any) => {
+    peer.on('call', (call: any) => {
       const {
         peer: peerId,
         metadata: { user },
       } = call;
       call.answer(stream);
-      call.on("stream", (remoteStream: MediaStream) => {
+      call.on('stream', (remoteStream: MediaStream) => {
         addConnection({
           stream: remoteStream,
           connection: call,
@@ -153,36 +156,36 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
       });
     });
     return () => {
-      peer.off("call");
+      peer.off('call');
     };
   }, [peer, stream, addConnection]);
 
   useEffect(() => {
-    socket.on("user:left", (peerId: PeerId) => {
+    socket.on('user:left', (peerId: PeerId) => {
       if (peerId !== myPeerId) {
         toast.success(`${namesList[peerId]} has left the room`);
         removeConnection(peerId);
       }
     });
     return () => {
-      socket.off("user:left");
+      socket.off('user:left');
     };
   }, [myPeerId, namesList, socket, removeConnection]);
 
   useEffect(() => {
-    socket.on("user:toggled-video", (peerId: PeerId) => {
+    socket.on('user:toggled-video', (peerId: PeerId) => {
       setPeerVisible(peerId, !visibleList[peerId]);
     });
     return () => {
-      socket.off("user:toggled-video");
+      socket.off('user:toggled-video');
     };
   }, [visibleList, setPeerVisible, socket]);
   useEffect(() => {
-    socket.on("user:toggled-audio", (peerId: PeerId) => {
+    socket.on('user:toggled-audio', (peerId: PeerId) => {
       setPeerMuted(peerId, !mutedList[peerId]);
     });
     return () => {
-      socket.off("user:toggled-audio");
+      socket.off('user:toggled-audio');
     };
   }, [mutedList, socket, setPeerMuted]);
 
