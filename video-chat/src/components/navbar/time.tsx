@@ -1,20 +1,26 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
-import { useState } from "react";
-import { useInterval } from "usehooks-ts";
+import { useState } from 'react';
+import dayjs from 'dayjs';
+import { useInterval } from 'usehooks-ts';
+import { cn } from '@/lib/utils';
+
+const getTimeNow = () => dayjs().format('HH:mm | ddd, MMM D');
 
 type Props = {
   className?: string;
 };
 export default function Time({ className }: Props) {
-  const [time, setTime] = useState<string>("");
+  const [time, setTime] = useState<string>(getTimeNow());
+
   useInterval(() => {
-    setTime(dayjs().format("HH:mm | ddd, MMM D"));
+    setTime(getTimeNow);
   }, 1000);
+
   return (
-    <span className={cn("text-md sm:text-lg md:text-xl", className)}>
+    <span
+      className={cn('mr-3 hidden text-lg tracking-tighter xs:block', className)}
+    >
       {time}
     </span>
   );
