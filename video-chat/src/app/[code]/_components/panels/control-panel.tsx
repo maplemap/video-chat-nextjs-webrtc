@@ -63,20 +63,26 @@ export default function ControlPanel() {
     }
   };
   return (
-    <div className="h-[10vh] px-3 pb-3">
-      <div className="grid h-full w-full grid-cols-[1.5fr,1fr] items-center rounded-xl bg-light-primary px-3 dark:bg-dark-primary md:grid-cols-3">
+    <div className="h-[6vh] px-3 pb-3">
+      <div className="grid h-full w-full grid-cols-[1.5fr,1fr] items-center bg-light-primary px-3 dark:bg-dark-primary md:grid-cols-3">
         <Time className="hidden md:block" />
-        <div className="flex items-center justify-center gap-x-3">
+        <div className="flex gap-x-3 xs:justify-end md:justify-center">
           <Button
+            className="accent-red-500"
             size="icon"
             variant={"red"}
             onClick={() => {
               router.push("/");
             }}
           >
-            <LuPhoneOff className="h-6 w-6" />
+            <IoExitOutline
+              color="red"
+              className="h-6 w-6 rotate-180"
+              title="exit"
+            />
           </Button>
           <Button
+            variant="ghost"
             size="icon"
             onClick={() => {
               toggle("audio");
@@ -89,6 +95,7 @@ export default function ControlPanel() {
             )}
           </Button>
           <Button
+            variant="ghost"
             size="icon"
             onClick={() => {
               toggle("video");
@@ -106,8 +113,8 @@ export default function ControlPanel() {
           className="flex cursor-pointer items-center gap-x-2 justify-self-end"
         >
           <LuCopy />
-          <span className="hidden md:block">{meeting?.code}</span>
-          <span className="md:hidden">{`${meeting?.code.slice(0, 6)}...`}</span>
+          <span className="hidden xs:block">{meeting?.code}</span>
+          <span className="xs:hidden">{`${meeting?.code.slice(0, 6)}...`}</span>
         </div>
       </div>
     </div>

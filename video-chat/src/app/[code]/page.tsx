@@ -1,17 +1,17 @@
 "use client";
 
-import { Code } from "@/types";
-import { useEffect, useState } from "react";
-import Lobby from "./_components/lobby";
-import Meeting from "./_components/meeting";
-import { useMeeting } from "@/hooks/state/use-meeting";
-import getMeetingByCode from "@/actions/get/get-meeting-by-code";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { Route } from "../../../routes";
-import { Hearts } from "react-loader-spinner";
-import { useShallow } from "zustand/react/shallow";
-import { MeetingProvider } from "./_components/providers";
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useShallow } from 'zustand/react/shallow';
+import { useRouter } from 'next/navigation';
+import getMeetingByCode from '@/actions/get/get-meeting-by-code';
+import { useMeeting } from '@/hooks/state/use-meeting';
+import { Code } from '@/types';
+import { Route } from '../../../routes';
+import { Spinner } from '../../components/ui/spinner';
+import Lobby from './_components/lobby';
+import Meeting from './_components/meeting';
+import { MeetingProvider } from './_components/providers';
 
 type Props = {
   params: { code: Code };
@@ -27,6 +27,7 @@ export default function MeetingPage({ params: { code } }: Props) {
     })),
   );
   const router = useRouter();
+
   useEffect(() => {
     if (meeting) {
       setIsLoading(false);
@@ -37,7 +38,7 @@ export default function MeetingPage({ params: { code } }: Props) {
         setMeeting(res);
         setIsLoading(false);
       } else {
-        toast.error("Meeting not found !");
+        toast.error('Meeting not found !');
         router.push(Route.MAIN);
       }
     });
@@ -46,15 +47,7 @@ export default function MeetingPage({ params: { code } }: Props) {
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
-        <Hearts
-          height="120"
-          width="120"
-          color="#4a8be0"
-          ariaLabel="hearts-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
+        <Spinner />
       </div>
     );
   }

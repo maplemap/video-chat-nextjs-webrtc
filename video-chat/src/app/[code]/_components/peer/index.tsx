@@ -10,7 +10,7 @@ const PeerVideo = ({
   isMe?: boolean;
 }) => {
   return (
-    <div className="flex h-full items-center justify-center overflow-hidden rounded-xl bg-light-primary dark:bg-dark-primary">
+    <div className="flex h-full items-center justify-center overflow-hidden bg-light-primary dark:bg-dark-primary">
       <video
         ref={(node) => {
           if (node) node.srcObject = stream;

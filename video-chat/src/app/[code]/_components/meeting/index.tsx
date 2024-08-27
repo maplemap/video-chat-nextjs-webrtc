@@ -19,6 +19,7 @@ export default function Meeting() {
         imagesList: state.imagesList,
       })),
     );
+
   return (
     <>
       <StreamsContainer count={Object.keys(streamsList).length + 1}>
@@ -26,7 +27,6 @@ export default function Meeting() {
         {Object.entries(streamsList).map(([peerId, stream]) => (
           <VideoContainer
             key={peerId}
-            muted={mutedList[peerId]}
             visible={visibleList[peerId]}
             image={imagesList[peerId]}
             stream={stream}
