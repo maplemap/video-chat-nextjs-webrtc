@@ -1,9 +1,8 @@
-import signUp from "@/actions/post/sign-up";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
+import signUp from '@/actions/post/sign-up';
 
 export const useSignUp = () => {
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: signUp,
   });
-  return mutation;
 };

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -24,7 +24,7 @@ export default function MeetingPage({ params: { code } }: Props) {
     useShallow((state) => ({
       meeting: state.meeting,
       setMeeting: state.setMeeting,
-    })),
+    }))
   );
   const router = useRouter();
 
@@ -46,7 +46,7 @@ export default function MeetingPage({ params: { code } }: Props) {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className='flex h-screen w-full items-center justify-center'>
         <Spinner />
       </div>
     );

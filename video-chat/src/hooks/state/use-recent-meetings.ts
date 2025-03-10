@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { Meeting } from '@prisma/client';
 
@@ -19,7 +19,7 @@ export const useRecentMeetings = create<State & Actions>()(
           set((state) => {
             const currentMeetings = get().meetings;
             const isMeetingExistInState = currentMeetings.find(
-              ({ id }) => id === meeting.id,
+              ({ id }) => id === meeting.id
             );
 
             if (!isMeetingExistInState) {
@@ -28,8 +28,8 @@ export const useRecentMeetings = create<State & Actions>()(
           }),
       }),
       {
-        name: "recent-meetings-storage", // name of the item in the storage (must be unique)
-      },
-    ),
-  ),
+        name: 'recent-meetings-storage', // name of the item in the storage (must be unique)
+      }
+    )
+  )
 );

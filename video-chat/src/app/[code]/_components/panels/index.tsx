@@ -1,2 +1,3 @@
-import ControlPanel from "./control-panel";
+import ControlPanel from './control-panel';
+
 export { ControlPanel };

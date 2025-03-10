@@ -40,7 +40,7 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
       setJoinStatus: state.setJoinStatus,
       addJoinRequest: state.addJoinRequest,
       addConnection: state.addConnection,
-    })),
+    }))
   );
   const session = useSession();
   const { stream, muted, visible } = useStream(
@@ -48,7 +48,7 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
       stream: state.stream,
       muted: state.muted,
       visible: state.visible,
-    })),
+    }))
   );
   const { peer, myPeerId, setMyPeerId, setPeer } = usePeer();
   const addRecentMeeting = useRecentMeetings((state) => state.addMeeting);
@@ -68,51 +68,55 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
   useEffect(() => {
     (async function createPeer() {
       try {
-        const peer = new (await import("peerjs")).default();
+        const peer = new (await import('peerjs')).default();
         setPeer(peer);
-        peer.on("open", (peerId) => {
+        peer.on('open', (peerId) => {
           setMyPeerId(peerId);
         });
 
-        peer.on("error", (err) =>
-          console.log("Failed to setup peer connection", err),
+        peer.on(
+          'error',
+          (err) => console.log('Failed to setup peer connection', err) // eslint-disable-line no-console
         );
       } catch (e) {
-        console.log("Unable to create peer");
+        console.log('Unable to create peer', e); // eslint-disable-line no-console
       }
     })();
   }, [setMyPeerId, setPeer]);
 
   useEffect(() => {
-    socket.on("user:wait-for-owner", () => {
-      setJoinStatus("wait-for-owner");
+    socket.on('user:wait-for-owner', () => {
+      setJoinStatus('wait-for-owner');
     });
-    socket.on("meeting:full", () => {
-      setJoinStatus("room-is-full");
+    socket.on('meeting:full', () => {
+      setJoinStatus('room-is-full');
     });
-    socket.on("user:rejected", () => {
-      setJoinStatus("rejected");
+    socket.on('user:rejected', () => {
+      setJoinStatus('rejected');
     });
-    socket.on("user:join-request", (user) => {
+    socket.on('user:join-request', (user) => {
       addJoinRequest(user);
     });
-    socket.on("user:accepted", ({ code, user }) => {
-      socket.emit("meeting:join", { code, user });
-      setJoinStatus("accepted");
+    socket.on('user:accepted', ({ code, user }) => {
+      socket.emit('meeting:join', { code, user });
+      setJoinStatus('accepted');
       joinMeeting();
     });
     return () => {
-      socket.off("user:wait-for-owner");
-      socket.off("meeting:full");
-      socket.off("user:rejected");
-      socket.off("user:accepted");
-      socket.off("user:join-request");
+      socket.off('user:wait-for-owner');
+      socket.off('meeting:full');
+      socket.off('user:rejected');
+      socket.off('user:accepted');
+      socket.off('user:join-request');
     };
   }, [joinMeeting, socket, setJoinStatus, addJoinRequest]);
 
   useEffect(() => {
-    if (!peer) return;
-    socket.on("user:joined", (user) => {
+    if (!peer) {
+      return;
+    }
+
+    socket.on('user:joined', (user) => {
       toast.success(`${user.name} joined`);
 
       const call = peer.call(user.peerId, stream as MediaStream, {
@@ -124,7 +128,7 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
           },
         },
       });
-      call.on("stream", (remoteStream: MediaStream) => {
+      call.on('stream', (remoteStream: MediaStream) => {
         addConnection({
           stream: remoteStream,
           connection: call,
@@ -133,14 +137,16 @@ export default function MeetingProvider({ children, joinMeeting }: Props) {
       });
     });
     return () => {
-      socket.off("user:joined");
+      socket.off('user:joined');
     };
   }, [addConnection, muted, visible, peer, socket, session.data?.user, stream]);
 
   useEffect(() => {
-    if (!peer || !stream) return;
+    if (!peer || !stream) {
+      return;
+    }
 
-    peer.on('call', (call: any) => {
+    peer.on('call', (call) => {
       const {
         peer: peerId,
         metadata: { user },

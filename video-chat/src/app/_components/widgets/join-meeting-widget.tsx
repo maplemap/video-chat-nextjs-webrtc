@@ -31,20 +31,20 @@ export default function JoinMeetingWidget() {
   };
   return (
     <>
-      <h3 className="mb-2 text-lg">Join meeting with code</h3>
+      <h3 className='mb-2 text-lg'>Join meeting with code</h3>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="grid gap-3 sm:grid-cols-[3fr,1fr]"
+        className='grid gap-3 sm:grid-cols-[3fr,1fr]'
       >
         <Input
           {...register('code')}
-          className="h-10"
-          placeholder="Enter code"
+          className='h-10'
+          placeholder='Enter code'
           maxLength={18}
         />
-        <Button type="submit">{isSubmitting ? 'Validating' : 'Join'}</Button>
+        <Button type='submit'>{isSubmitting ? 'Validating' : 'Join'}</Button>
       </form>
-      <div className="border-black- ml-2 mt-2 text-lg">
+      <div className='border-black- ml-2 mt-2 text-lg'>
         {watchCode.length}/18
       </div>
     </>

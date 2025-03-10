@@ -1,24 +1,23 @@
-"use client";
+'use client';
 
-import { VideoContainer } from "../containers";
-import StreamsContainer from "../containers/streams-container";
-import JoinRequestsDialog from "../dialogs/join-requests-dialog";
-import { MyStream } from "../streams";
-import PeerVideo from "../peer/index";
-import { useMeeting } from "@/hooks/state/use-meeting";
-import { useShallow } from "zustand/react/shallow";
+import { useShallow } from 'zustand/react/shallow';
+import { useMeeting } from '@/hooks/state/use-meeting';
+import { VideoContainer } from '../containers';
+import StreamsContainer from '../containers/streams-container';
+import JoinRequestsDialog from '../dialogs/join-requests-dialog';
+import PeerVideo from '../peer/index';
+import { MyStream } from '../streams';
 
 export default function Meeting() {
-  const { streamsList, mutedList, visibleList, namesList, imagesList } =
-    useMeeting(
-      useShallow((state) => ({
-        streamsList: state.streamsList,
-        mutedList: state.mutedList,
-        visibleList: state.visibleList,
-        namesList: state.namesList,
-        imagesList: state.imagesList,
-      })),
-    );
+  const { streamsList, visibleList, namesList, imagesList } = useMeeting(
+    useShallow((state) => ({
+      streamsList: state.streamsList,
+      mutedList: state.mutedList,
+      visibleList: state.visibleList,
+      namesList: state.namesList,
+      imagesList: state.imagesList,
+    }))
+  );
 
   return (
     <>

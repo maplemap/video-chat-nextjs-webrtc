@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { db } from "@/lib/db";
+import { db } from '@/lib/db';
 
 export default async function getUserByEmail(email: string) {
   try {
-    const user = await db.user.findUnique({ where: { email } });
-    return user;
+    return await db.user.findUnique({ where: { email } });
   } catch (error) {
+    console.log(error); // eslint-disable-line no-console
     return null;
   }
 }

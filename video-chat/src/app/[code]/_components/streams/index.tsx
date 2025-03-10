@@ -1,3 +1,3 @@
-import MyStream from "./my-stream";
+import MyStream from './my-stream';
 
 export { MyStream };

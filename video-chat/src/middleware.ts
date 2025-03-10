@@ -1,6 +1,6 @@
-import { auth } from "../auth";
-import { Route, apiAuthPrefix, authRoutes } from "../routes";
 import { NextResponse } from 'next/server';
+import { auth } from '../auth';
+import { Route, apiAuthPrefix, authRoutes } from '../routes';
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -27,7 +27,7 @@ export default auth((req) => {
     const encodedCallbackURL = encodeURIComponent(callbackURL);
 
     return Response.redirect(
-      new URL(`${Route.SIGN_IN}?callbackUrl=${encodedCallbackURL}`, nextUrl),
+      new URL(`${Route.SIGN_IN}?callbackUrl=${encodedCallbackURL}`, nextUrl)
     );
   }
 
@@ -35,5 +35,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };

@@ -1,6 +1,6 @@
-import { Nullable, StreamStatus } from "@/types";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { Nullable, StreamStatus } from '@/types';
 
 type State = {
   stream: Nullable<MediaStream>;
@@ -23,7 +23,7 @@ type Actions = {
 export const useStream = create<State & Actions>()(
   immer((set) => ({
     stream: null,
-    status: "loading",
+    status: 'loading',
     visible: true,
     muted: false,
     setStream: (stream) =>
@@ -45,34 +45,40 @@ export const useStream = create<State & Actions>()(
     reset: () =>
       set((state) => {
         state.stream = null;
-        state.status = "loading";
+        state.status = 'loading';
         state.visible = true;
         state.muted = false;
       }),
     getStream: () =>
       set(async ({ stream, muted, visible, setStream, setStatus }) => {
-        if (stream) return;
-        console.log("Getting stream");
+        if (stream) {
+          return;
+        }
+        console.log('Getting stream'); // eslint-disable-line no-console
         try {
           const newstream = await navigator.mediaDevices.getUserMedia({
             audio: !muted,
             video: visible,
           });
           setStream(newstream);
-          setStatus("success");
-          console.log("Stream is ready");
+          setStatus('success');
+
+          console.log('Stream is ready'); // eslint-disable-line no-console
         } catch (error) {
-          setStatus("rejected");
-          console.error("Access denied for audio and video stream", error);
+          setStatus('rejected');
+          console.error('Access denied for audio and video stream', error); // eslint-disable-line no-console
         }
       }),
     toggleAudio: () =>
       set(async ({ stream, setMuted }) => {
-        if (!stream) throw new Error("Failed. Could not find stream");
+        if (!stream) {
+          throw new Error('Failed. Could not find stream');
+        }
 
         const track = stream.getAudioTracks()[0];
-        if (!track)
-          throw new Error(`Failed. Could not find audio track in given stream`);
+        if (!track) {
+          throw new Error('Failed. Could not find audio track in given stream');
+        }
         if (track.enabled) {
           track.enabled = false;
           setMuted(true);
@@ -83,10 +89,12 @@ export const useStream = create<State & Actions>()(
       }),
     toggleVideo: (cb) =>
       set(async ({ stream, muted, setVisible }) => {
-        if (!stream) throw new Error("There is no a video stream to toggle");
+        if (!stream) {
+          throw new Error('There is no a video stream to toggle');
+        }
 
         const videoTrack = stream.getVideoTracks()[0];
-        if (videoTrack && videoTrack.readyState === "live") {
+        if (videoTrack && videoTrack.readyState === 'live') {
           videoTrack.enabled = false;
           videoTrack.stop(); // вимикаємо світловий індикатор на камері
           setVisible(false);
@@ -97,7 +105,7 @@ export const useStream = create<State & Actions>()(
           });
           const newVideoTrack = newStream.getVideoTracks()[0];
 
-          if (typeof cb === "function") {
+          if (typeof cb === 'function') {
             cb(newVideoTrack);
           }
           stream.removeTrack(videoTrack);
@@ -105,5 +113,5 @@ export const useStream = create<State & Actions>()(
           setVisible(true);
         }
       }),
-  })),
+  }))
 );

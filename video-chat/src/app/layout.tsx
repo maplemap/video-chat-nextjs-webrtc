@@ -24,9 +24,9 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <QueryProvider>
-        <html lang="en" suppressHydrationWarning>
+        <html lang='en' suppressHydrationWarning>
           <body className={font.className}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
               <Toaster />
               {children}
             </ThemeProvider>

@@ -1,4 +1,4 @@
-import VideoContainer from "./video-container";
-import StreamContainer from "./streams-container";
+import StreamContainer from './streams-container';
+import VideoContainer from './video-container';
 
 export { VideoContainer, StreamContainer };

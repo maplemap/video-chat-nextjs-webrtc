@@ -1,33 +1,35 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+
+import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useCreateMeeting } from "@/hooks/mutations/use-create-meeting";
-import { useMeeting } from "@/hooks/state/use-meeting";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useCreateMeeting } from '@/hooks/mutations/use-create-meeting';
+import { useMeeting } from '@/hooks/state/use-meeting';
 import {
   CreateMeetingFields,
   CreateMeetingValidationSchema,
-} from "@/types/forms";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+} from '@/types/forms';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 export default function CreateMeetingWidget() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateMeetingFields>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
-      name: "",
+      name: '',
     },
     resolver: zodResolver(CreateMeetingValidationSchema),
   });
@@ -44,7 +46,7 @@ export default function CreateMeetingWidget() {
           reset();
         }
         if (res.success) {
-          toast.success("Meeting created successfuly !");
+          toast.success('Meeting created successfuly!');
           setMeeting(res.success);
           router.push(res.success.code);
         }
@@ -55,33 +57,34 @@ export default function CreateMeetingWidget() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="h-[40px] w-full">Create new meeting</Button>
+        <Button className='h-[40px] w-full'>Create new meeting</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Create new meeting</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor='name'>Name</Label>
             <Input
-              {...register("name")}
-              id="name"
-              placeholder="English lesson"
-              className="mt-2 h-10"
+              {...register('name')}
+              id='name'
+              placeholder='English lesson'
+              className='mt-2 h-10'
               maxLength={110}
             />
-            <span className="text-sm text-red-500">{errors.name?.message}</span>{' '}
+            <span className='text-sm text-red-500'>
+              {errors.name?.message}
+            </span>{' '}
           </div>
           <Button
             disabled={isPending}
-            type="submit"
-            className="mt-2 w-full"
-            size={"sm"}
+            type='submit'
+            className='mt-2 h-[40px] w-full'
           >
-            {isIdle && "Create new meeting"}
-            {isPending && "Creating new meeting"}
-            {isSuccess && "Meeting created successfully"}
+            {isIdle && 'Create new meeting'}
+            {isPending && 'Creating new meeting'}
+            {isSuccess && 'Meeting created successfully'}
           </Button>
         </form>
       </DialogContent>

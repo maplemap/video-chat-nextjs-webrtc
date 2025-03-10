@@ -1,3 +1,6 @@
+import { MediaConnection } from 'peerjs';
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 import {
   JoinStatus,
   KeyValue,
@@ -5,11 +8,8 @@ import {
   PeerConnection,
   PeerId,
   PeerUserWithSocketId,
-} from "@/types";
-import { Meeting } from "@prisma/client";
-import { MediaConnection } from "peerjs";
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+} from '@/types';
+import { Meeting } from '@prisma/client';
 
 type State = {
   meeting: Nullable<Meeting>;
@@ -38,7 +38,7 @@ type Actions = {
 export const useMeeting = create<State & Actions>()(
   immer((set) => ({
     meeting: null,
-    joinStatus: "idle",
+    joinStatus: 'idle',
     joinRequests: [],
     connections: {},
     streamsList: {},
@@ -61,7 +61,7 @@ export const useMeeting = create<State & Actions>()(
     removeJoinRequest: (peerId) =>
       set((state) => {
         state.joinRequests = state.joinRequests.filter(
-          (req) => req.peerId !== peerId,
+          (req) => req.peerId !== peerId
         );
       }),
     addConnection: ({
@@ -101,7 +101,7 @@ export const useMeeting = create<State & Actions>()(
     reset: () =>
       set((state) => {
         state.meeting = null;
-        state.joinStatus = "idle";
+        state.joinStatus = 'idle';
         state.joinRequests = [];
         state.connections = {};
         state.streamsList = {};
@@ -110,5 +110,5 @@ export const useMeeting = create<State & Actions>()(
         state.namesList = {};
         state.imagesList = {};
       }),
-  })),
+  }))
 );

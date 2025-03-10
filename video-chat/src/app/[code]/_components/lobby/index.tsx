@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { LuMic, LuMicOff, LuVideo, LuVideoOff } from 'react-icons/lu';
-import { ColorRing } from 'react-loader-spinner';
 import { useShallow } from 'zustand/react/shallow';
 import Navbar from '@/components/navbar';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,7 @@ export default function Lobby() {
       joinStatus: state.joinStatus,
       meeting: state.meeting,
       setJoinStatus: state.setJoinStatus,
-    })),
+    }))
   );
   const socket = useSocket();
   const peerId = usePeer((state) => state.myPeerId);
@@ -61,7 +60,7 @@ export default function Lobby() {
 
   const generateControllerButton = (
     type: 'audio' | 'video',
-    active: boolean,
+    active: boolean
   ) => {
     const OffIcon = type === 'audio' ? LuMicOff : LuVideoOff;
     const OnIcon = type === 'audio' ? LuMic : LuVideo;
@@ -69,30 +68,30 @@ export default function Lobby() {
     const onClickHandler = type === 'audio' ? toggleAudio : toggleVideo;
 
     return (
-      <Button onClick={onClickHandler} size="icon" variant="ghost">
-        <Icon className="h-6 w-6" />
+      <Button onClick={onClickHandler} size='icon' variant='ghost'>
+        <Icon className='h-6 w-6' />
       </Button>
     );
   };
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className='flex h-screen flex-col'>
       <Navbar />
-      <div className="flex grow items-center p-5">
-        <div className="grid h-[90%] w-full gap-5 md:grid-cols-[2fr,1fr]">
-          <div className="relative">
-            <p className="absolute right-0 top-[-40px] select-none p-2 text-lg font-medium">
+      <div className='flex grow items-center p-5'>
+        <div className='grid h-[90%] w-full gap-5 md:grid-cols-[2fr,1fr]'>
+          <div className='relative'>
+            <p className='absolute right-0 top-[-40px] select-none p-2 text-lg font-medium'>
               {yourName}
             </p>
             <MyStream />
             {status === 'success' && (
-              <div className="column absolute right-[-48px] top-0 flex flex-col">
+              <div className='column absolute right-[-48px] top-0 flex flex-col'>
                 {generateControllerButton('video', visible)}
                 {generateControllerButton('audio', !muted)}
               </div>
             )}
           </div>
-          <div className="grid place-content-center place-items-center gap-2 text-center">
+          <div className='grid place-content-center place-items-center gap-2 text-center'>
             {joinStatus === 'idle' && (
               <>
                 {status === 'loading' && <div>Waiting for your stream 😴</div>}
@@ -104,8 +103,8 @@ export default function Lobby() {
                 )}
                 {status === 'success' && (
                   <>
-                    <div className="mb-3">{meeting?.name}</div>
-                    <Button onClick={handleJoin} className="w-[100px]">
+                    <div className='mb-3'>{meeting?.name}</div>
+                    <Button onClick={handleJoin} className='w-[100px]'>
                       Join
                     </Button>
                   </>
@@ -118,23 +117,23 @@ export default function Lobby() {
                 <span>Wait until meeting owner accept your request</span>
               </>
             )}
-            {joinStatus === "rejected" && (
+            {joinStatus === 'rejected' && (
               <div>Meeting owner rejected your join request</div>
             )}
-            {joinStatus === "wait-for-owner" && (
+            {joinStatus === 'wait-for-owner' && (
               <>
                 <div>{meeting?.name}</div>
                 <div>Meeting owner in not here</div>
-                <Button onClick={handleJoin} size={"lg"}>
+                <Button onClick={handleJoin} size={'lg'}>
                   Try again
                 </Button>
               </>
             )}
-            {joinStatus === "room-is-full" && (
+            {joinStatus === 'room-is-full' && (
               <>
-                <div className="mb-3">{meeting?.name}</div>
+                <div className='mb-3'>{meeting?.name}</div>
                 <div>Meeting is full try again later</div>
-                <Button onClick={handleJoin} size={"lg"}>
+                <Button onClick={handleJoin} size={'lg'}>
                   Try again
                 </Button>
               </>
