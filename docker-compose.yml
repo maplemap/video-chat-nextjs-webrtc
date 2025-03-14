@@ -1,0 +1,67 @@
+services:
+  app:
+    container_name: video-chat-app
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    restart: always
+    command: serve -s build -l 3000
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DB_URL=mongodb://${DB_USER}:${DB_PASSWORD}@video-chat-db:27017/${DB_NAME}?authSource=admin&readPreference=primary&ssl=false&replicaSet=rs0
+      - AUTH_SECRET=${AUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - video-chat_app-network
+
+  db:
+    container_name: video-chat-db
+    image: mongo:4.4
+    ports:
+      - 27017:27017
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DB_NAME}
+      - MONGO_REPLICA_SET_NAME=rs0
+    volumes:
+      - mongodb4_data:/data/db
+      - ./db/keyfile:/opt/keyfile/
+    healthcheck:
+      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: "--bind_ip_all --keyFile /opt/keyfile --replSet rs0"
+    networks:
+      - video-chat_app-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: video-chat-nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "3001:3001"
+    depends_on:
+      app:
+        condition: service_started
+      db:
+        condition: service_healthy
+    networks:
+      - video-chat_app-network
+
+networks:
+  video-chat_app-network:
+    driver: bridge
+
+volumes:
+  mongodb4_data:

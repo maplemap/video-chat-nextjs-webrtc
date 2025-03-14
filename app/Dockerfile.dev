@@ -1,10 +1,16 @@
-FROM node:20-alpine
+FROM node:18-alpine
+
+RUN apk add --no-cache openssl
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /var/app
 
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma
 
-RUN npm install
+RUN pnpm install
+RUN pnpm prisma generate
 
 COPY . .
 
+COPY next.config.mjs ./next.config.mjs
