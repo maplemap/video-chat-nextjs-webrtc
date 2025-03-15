@@ -52,7 +52,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Meeting{
+model Meeting {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   code         String  @unique

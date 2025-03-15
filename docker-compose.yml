@@ -5,7 +5,7 @@ services:
       context: ./app
       dockerfile: Dockerfile.prod
     restart: always
-    command: serve -s build -l 3000
+    command: npm run start
     ports:
       - "3000:3000"
     environment:

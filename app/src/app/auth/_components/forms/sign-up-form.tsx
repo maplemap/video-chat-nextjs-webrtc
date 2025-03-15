@@ -33,7 +33,7 @@ export default function SignUpForm() {
   const { mutateAsync, reset, isIdle, isPending, isSuccess } = useSignUp();
   const [error, setError] = useState<string>('');
   const searchParams = useSearchParams();
-  const callbackURL = searchParams.get('callbackUrl') ?? Route.MAIN;
+  const callbackURL = searchParams?.get('callbackUrl') ?? Route.MAIN;
   const onSubmit: SubmitHandler<SignUpFields> = async (data) => {
     await mutateAsync(data, {
       onSuccess: (res) => {

@@ -8,11 +8,9 @@ WORKDIR /var/app
 COPY package.json pnpm-lock.yaml ./
 COPY prisma ./prisma
 
-RUN pnpm install --frozen-lockfile --production
+RUN pnpm install --frozen-lockfile
 RUN pnpm prisma generate
 
 COPY . .
 
 RUN pnpm run build
-
-RUN npm install -g serve

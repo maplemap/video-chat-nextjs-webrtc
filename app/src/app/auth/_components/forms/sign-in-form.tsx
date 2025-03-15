@@ -38,7 +38,7 @@ export default function SignInForm() {
   } = useSignIn();
   const [error, setError] = useState<string>('');
   const searchParams = useSearchParams();
-  const callbackURL = searchParams.get('callbackUrl') ?? Route.MAIN;
+  const callbackURL = searchParams?.get('callbackUrl') ?? Route.MAIN;
   const onSubmit: SubmitHandler<SignInFields> = async (data) => {
     await mutateAsync(
       { data, callbackURL },

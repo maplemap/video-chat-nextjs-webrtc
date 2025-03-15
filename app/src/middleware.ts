@@ -31,7 +31,7 @@ export default auth((req) => {
     );
   }
 
-  return null;
+  return NextResponse.next();
 });
 
 export const config = {

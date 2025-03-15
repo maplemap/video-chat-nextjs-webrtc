@@ -1,7 +1,7 @@
 'use client';
 
 import { signOut, useSession } from 'next-auth/react';
-import { LuMoreVertical } from 'react-icons/lu';
+import { LuMoveVertical } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Switch } from '../ui/switch';
@@ -24,7 +24,7 @@ export default function MyAvatar() {
             </div>
           </div>
           <div className='flex-shrink-0'>
-            <LuMoreVertical className='mr-3 h-4 w-4' />
+            <LuMoveVertical className='mr-3 h-4 w-4' />
           </div>
         </div>
       </PopoverTrigger>

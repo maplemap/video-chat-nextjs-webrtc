@@ -23,7 +23,7 @@ export default function JoinRequestsDialog() {
   const answerRequest = (user: PeerUserWithSocketId, accept: boolean) => {
     socket.emit(accept ? 'user:accepted' : 'user:rejected', {
       user,
-      code: params.code as string,
+      code: params?.code as string,
     });
     removeJoinRequest(user.peerId);
   };
@@ -51,7 +51,7 @@ export default function JoinRequestsDialog() {
                   <FaCheck />
                 </Button>
                 <Button
-                  variant='red'
+                  // variant='red'
                   size={'icon'}
                   onClick={() => answerRequest(user, false)}
                 >
