@@ -6,9 +6,9 @@ services:
       dockerfile: Dockerfile.prod
     restart: always
     command: npm run start
-    ports:
-      - "3000:3000"
     environment:
+      - NEXTAUTH_URL=http://localhost:${APP_PORT}
+      - NEXT_PUBLIC_SOCKET_SERVER_URL=http://localhost:${APP_PORT}
       - NODE_ENV=${NODE_ENV}
       - DB_URL=mongodb://${DB_USER}:${DB_PASSWORD}@video-chat-db:27017/${DB_NAME}?authSource=admin&readPreference=primary&ssl=false&replicaSet=rs0
       - AUTH_SECRET=${AUTH_SECRET}
@@ -25,8 +25,6 @@ services:
   db:
     container_name: video-chat-db
     image: mongo:4.4
-    ports:
-      - 27017:27017
     restart: on-failure
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
@@ -44,13 +42,28 @@ services:
     networks:
       - video-chat_app-network
 
+  event-server:
+    container_name: video-chat-event-server
+    build:
+      context: ./event-server
+      dockerfile: Dockerfile.prod
+    restart: always
+    command: npm run start
+    environment:
+      - PORT=3300
+      - CLIENT_URL=http://video-chat-app:${APP_PORT}
+    depends_on:
+      - app
+    networks:
+      - video-chat_app-network
+
   nginx:
     image: nginx:stable-alpine
     container_name: video-chat-nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "3001:3001"
+      - "${APP_PORT}:${APP_PORT}"
     depends_on:
       app:
         condition: service_started

@@ -8,5 +8,12 @@ services:
       - ./app:/var/app
       - /var/app/node_modules
       - /var/app/.next
+  event-server:
+    build:
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    restart: unless-stopped
+    volumes:
+      - ./event-server:/var/app
 
 

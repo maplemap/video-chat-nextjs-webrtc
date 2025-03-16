@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
       socket.to(code).emit("user:toggled-video", userPeerId);
     });
 
-    socket.on("disconnect", (data) => {
+    socket.on("disconnect", () => {
       if (meetings[code]?.ownerSocketId == socket.id) {
         meetings[code].ownerId = "";
         meetings[code].ownerSocketId = "";
@@ -100,6 +100,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   res.redirect(CLIENT_URL);
 });
