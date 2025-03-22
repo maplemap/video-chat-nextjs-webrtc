@@ -57,13 +57,13 @@ export default function SignUpForm() {
     <div className='flex w-full grow items-center justify-center'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='h-full w-full min-w-[300px] bg-light-primary p-5 dark:bg-dark-primary sm:h-fit sm:w-fit sm:rounded-2xl'
+        className='h-full w-full min-w-[350px] bg-light-primary p-5 dark:bg-dark-primary sm:h-fit sm:w-fit'
       >
         <h1 className='mb-5 text-center text-2xl font-bold'>Sign up</h1>
-        <div className='my-3'>
+        <div className='mt-3'>
           <div>
             <Input {...register('email')} placeholder='Email' />
-            <span className='ml-5 text-xs text-red-500'>
+            <span className='relative -top-[2px] ml-2 text-sm text-red-500'>
               {errors.email?.message}
             </span>
           </div>
@@ -73,7 +73,7 @@ export default function SignUpForm() {
               placeholder='Name'
               autoComplete='name'
             />
-            <span className='ml-5 text-xs text-red-500'>
+            <span className='relative -top-[2px] ml-2 text-sm text-red-500'>
               {errors.name?.message}
             </span>
           </div>
@@ -81,9 +81,9 @@ export default function SignUpForm() {
             <Input
               {...register('password')}
               type='password'
-              placeholder='Email'
+              placeholder='Password'
             />
-            <span className='ml-5 text-xs text-red-500'>
+            <span className='relative -top-[2px] ml-2 text-sm text-red-500'>
               {errors.password?.message}
             </span>
           </div>
@@ -108,10 +108,10 @@ export default function SignUpForm() {
           <GoogleButton callbackUrl={callbackURL} />
           <GithubButton callbackUrl={callbackURL} />
         </div>
-        <div className='mt-3 text-sm text-secondary'>
-          {'Have an account already ? '}
+        <div className='mt-5 text-md text-secondary'>
+          {'Have an account already?'}
           <Link href={Route.SIGN_IN} className='cursor-pointer text-blue-500'>
-            Sign in
+            &nbsp;Sign in
           </Link>
         </div>
       </form>
