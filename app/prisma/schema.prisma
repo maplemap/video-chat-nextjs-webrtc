@@ -23,6 +23,8 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+
+  meetings      Meeting[] @relation("UserMeetings")
 }
 
 model Account {
@@ -53,9 +55,10 @@ model Session {
 }
 
 model Meeting {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  code         String  @unique
-  ownerId      String  @db.ObjectId
-  createdAt    DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  code      String   @unique
+  ownerId   String   @db.ObjectId
+  owner     User @relation("UserMeetings", fields: [ownerId], references: [id])
+  createdAt DateTime @default(now())
 }

@@ -14,12 +14,12 @@ export default async function signIn({
 }) {
   const validationResult = SignInValidationSchema.safeParse(data);
   if (!validationResult.success) {
-    return { error: 'Invalid fields !' };
+    return { error: 'Invalid fields!' };
   }
   const { email, password } = validationResult.data;
   const candidate = await getUserByEmail(email);
   if (!candidate || !candidate.password || !candidate.email) {
-    return { error: 'User not found !' };
+    return { error: 'User not found!' };
   }
 
   try {
@@ -32,7 +32,7 @@ export default async function signIn({
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { error: 'Invalid credentials !' };
+          return { error: 'Invalid credentials!' };
         default:
           return { error: 'Something went wrong :(' };
       }

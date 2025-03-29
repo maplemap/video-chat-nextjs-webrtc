@@ -31,8 +31,8 @@ export default function JoinRequestsDialog() {
     return null;
   }
   return (
-    <div className='absolute left-4 top-4 rounded-xl bg-light-primary p-3 dark:bg-gray-800'>
-      <ScrollArea className='overflow-y-auto h-44 pr-3'>
+    <div className='absolute left-4 top-4 bg-light-primary p-3 dark:bg-gray-800'>
+      <ScrollArea className='overflow-y-auto pr-3'>
         <div className='space-y-2'>
           {joinRequests.map((user) => (
             <div
@@ -47,15 +47,17 @@ export default function JoinRequestsDialog() {
                 <div>{user.name}</div>
               </div>
               <div className='space-x-1'>
-                <Button size={'icon'} onClick={() => answerRequest(user, true)}>
-                  <FaCheck />
+                <Button
+                  variant='ghost'
+                  onClick={() => answerRequest(user, true)}
+                >
+                  <FaCheck size={20} />
                 </Button>
                 <Button
-                  // variant='red'
-                  size={'icon'}
+                  variant='ghost'
                   onClick={() => answerRequest(user, false)}
                 >
-                  <FaXmark />
+                  <FaXmark size={20} color='red' />
                 </Button>
               </div>
             </div>

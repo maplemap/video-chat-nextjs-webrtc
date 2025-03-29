@@ -20,9 +20,9 @@ export default async function createMeeting(data: CreateMeetingFields) {
 
   const meeting = await db.meeting.create({
     data: {
-      ownerId: session.user.id,
-      code: generateCode(),
       name: validationRes.data.name,
+      code: generateCode(),
+      ownerId: session.user.id,
     },
   });
 

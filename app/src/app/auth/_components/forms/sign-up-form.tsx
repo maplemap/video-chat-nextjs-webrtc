@@ -109,7 +109,7 @@ export default function SignUpForm() {
           <GithubButton callbackUrl={callbackURL} />
         </div>
         <div className='mt-5 text-md text-secondary'>
-          {'Have an account already?'}
+          Have an account already?
           <Link href={Route.SIGN_IN} className='cursor-pointer text-blue-500'>
             &nbsp;Sign in
           </Link>
