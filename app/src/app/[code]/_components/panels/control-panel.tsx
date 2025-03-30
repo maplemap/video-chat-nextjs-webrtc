@@ -79,6 +79,7 @@ export default function ControlPanel() {
             />
           </Button>
           <Button
+            role='toggle-audio-button'
             variant='ghost'
             size='icon'
             onClick={() => {
@@ -92,6 +93,7 @@ export default function ControlPanel() {
             )}
           </Button>
           <Button
+            role='toggle-video-button'
             variant='ghost'
             size='icon'
             onClick={() => {
@@ -109,7 +111,7 @@ export default function ControlPanel() {
           onClick={() => handleCopy(meeting?.code as string)}
           className='flex cursor-pointer items-center gap-x-2 justify-self-end'
         >
-          <LuCopy />
+          <LuCopy role='copy-icon' />
           <span className='hidden xs:block'>{meeting?.code}</span>
           <span className='xs:hidden'>{`${meeting?.code.slice(0, 6)}...`}</span>
         </div>

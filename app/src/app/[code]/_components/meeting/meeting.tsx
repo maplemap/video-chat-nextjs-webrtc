@@ -5,7 +5,7 @@ import { useMeeting } from '@/hooks/state/use-meeting';
 import { VideoContainer } from '../containers';
 import StreamsContainer from '../containers/streams-container';
 import JoinRequestsDialog from '../dialogs/join-requests-dialog';
-import PeerVideo from '../peer/index';
+import PeerVideo from '../peer/peer-video';
 import { MyStream } from '../streams';
 
 export default function Meeting() {

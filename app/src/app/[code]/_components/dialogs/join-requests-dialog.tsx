@@ -48,12 +48,14 @@ export default function JoinRequestsDialog() {
               </div>
               <div className='space-x-1'>
                 <Button
+                  role='accept-button'
                   variant='ghost'
                   onClick={() => answerRequest(user, true)}
                 >
                   <FaCheck size={20} />
                 </Button>
                 <Button
+                  role='reject-button'
                   variant='ghost'
                   onClick={() => answerRequest(user, false)}
                 >

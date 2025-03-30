@@ -9,8 +9,8 @@ import { useMeeting } from '@/hooks/state/use-meeting';
 import { Code } from '@/types';
 import { Route } from '../../../routes';
 import { Spinner } from '../../components/ui/spinner';
-import Lobby from './_components/lobby';
-import Meeting from './_components/meeting';
+import Lobby from './_components/lobby/lobby';
+import Meeting from './_components/meeting/meeting';
 import { MeetingProvider } from './_components/providers';
 
 type Props = {

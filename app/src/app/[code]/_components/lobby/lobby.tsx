@@ -104,7 +104,11 @@ export default function Lobby() {
                 {status === 'success' && (
                   <>
                     <div className='mb-3'>{meeting?.name}</div>
-                    <Button onClick={handleJoin} className='w-[100px]'>
+                    <Button
+                      role='join-button'
+                      onClick={handleJoin}
+                      className='w-[100px]'
+                    >
                       Join
                     </Button>
                   </>

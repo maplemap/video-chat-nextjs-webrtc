@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useStream } from '@/hooks/state/use-stream';
 import { Spinner } from '../../../../components/ui/spinner';
 import { VideoContainer } from '../containers';
-import PeerVideo from '../peer/index';
+import PeerVideo from '../peer/peer-video';
 
 export default function MyStream() {
   const { stream, visible, status } = useStream();

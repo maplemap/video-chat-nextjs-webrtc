@@ -11,7 +11,7 @@ import {
 } from '@/types';
 import { Meeting } from '@prisma/client';
 
-type State = {
+export type State = {
   meeting: Nullable<Meeting>;
   joinStatus: JoinStatus;
   joinRequests: PeerUserWithSocketId[];
@@ -23,7 +23,7 @@ type State = {
   imagesList: KeyValue<string>;
 };
 
-type Actions = {
+export type Actions = {
   setMeeting: (meeting: Nullable<Meeting>) => void;
   setJoinStatus: (status: JoinStatus) => void;
   addJoinRequest: (req: PeerUserWithSocketId) => void;

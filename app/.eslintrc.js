@@ -14,7 +14,7 @@ module.exports = {
   plugins: [
     'prettier',
     'import',
-    // 'vitest',
+    'vitest',
     'eslint-plugin-no-inline-styles',
     'jasmine',
   ],
@@ -26,7 +26,6 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:import/warnings',
     'plugin:jasmine/recommended',
-    // 'plugin:vitest/recommended',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? ERROR : WARNING,
@@ -43,7 +42,6 @@ module.exports = {
     quotes: [ERROR, 'single', { avoidEscape: true }],
     '@typescript-eslint/no-inferrable-types': ERROR,
     '@typescript-eslint/typedef': OFF,
-    // 'import/prefer-default-export': ERROR,
     'import/no-duplicates': ERROR,
     'import/no-named-as-default': OFF,
   },
@@ -58,19 +56,19 @@ module.exports = {
       files: ['**/*.test.tsx', '**/*.test.ts'],
       rules: {
         '@typescript-eslint/typedef': OFF,
-        // 'vitest/prefer-called-with': [ERROR],
-        // 'vitest/consistent-test-it': ERROR,
-        // 'vitest/max-expects': [ERROR, { max: 2 }],
-        // 'vitest/no-disabled-tests': ERROR,
-        // 'vitest/no-focused-tests': ERROR,
-        // 'vitest/prefer-hooks-in-order': ERROR,
-        // 'vitest/prefer-hooks-on-top': ERROR,
-        // 'vitest/prefer-lowercase-title': [
-        //   ERROR,
-        //   {
-        //     ignore: ['describe'],
-        //   },
-        // ],
+        'vitest/prefer-called-with': [ERROR],
+        'vitest/consistent-test-it': ERROR,
+        'vitest/max-expects': [ERROR, { max: 2 }],
+        'vitest/no-disabled-tests': ERROR,
+        'vitest/no-focused-tests': ERROR,
+        'vitest/prefer-hooks-in-order': ERROR,
+        'vitest/prefer-hooks-on-top': ERROR,
+        'vitest/prefer-lowercase-title': [
+          ERROR,
+          {
+            ignore: ['describe'],
+          },
+        ],
         'jasmine/new-line-between-declarations': ERROR,
         'jasmine/new-line-before-expect': ERROR,
         'jasmine/expect-matcher': ERROR,

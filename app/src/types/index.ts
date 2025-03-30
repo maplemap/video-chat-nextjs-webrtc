@@ -1,5 +1,6 @@
 import { MediaConnection } from 'peerjs';
 import { Socket as ClientSocket } from 'socket.io-client';
+import type { Actions, State } from '../hooks/state/use-meeting';
 
 export type Code = string;
 export type Nullable<T> = T | null;
@@ -55,3 +56,5 @@ export interface ServerToClientEvents {
 }
 
 export type Socket = ClientSocket<ServerToClientEvents, ClientToServerEvents>;
+
+export type ZustandSelector<T = unknown> = (state: State & Actions) => T;

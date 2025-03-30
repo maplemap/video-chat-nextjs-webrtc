@@ -12,6 +12,7 @@ const PeerVideo = ({
   return (
     <div className='flex h-full items-center justify-center overflow-hidden bg-light-primary dark:bg-dark-primary'>
       <video
+        role='video'
         ref={(node) => {
           if (node) {
             node.srcObject = stream;
@@ -22,6 +23,7 @@ const PeerVideo = ({
         className='aspect-video h-full -scale-x-100 object-contain'
       />
       <audio
+        role='audio'
         ref={(node) => {
           if (node) {
             node.srcObject = stream;
