@@ -1,0 +1,47 @@
+name: Build, lint, test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.2.1
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4.0.4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests and generate coverage
+        run: npm run test:ci
+
+      - name: Upload coverage report
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          title: Code coverage
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: app/coverage/lcov.info

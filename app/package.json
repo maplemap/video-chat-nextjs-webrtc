@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest --coverage",
+    "test:ci": "npm run test -- run",
     "schema": "prisma/schema.prisma"
   },
   "dependencies": {
