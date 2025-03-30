@@ -1,6 +1,6 @@
 # Video Chat with Next.js, Typescript, SocketIO, WebRTC
 
-## Full list of technologies:
+## Technologies:
 - Next.js
 - Typescript
 - Socket IO
