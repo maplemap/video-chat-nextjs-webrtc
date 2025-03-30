@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Image from 'next/image';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@/lib/test';
 import { PeerUserWithSocketId, ZustandSelector } from '@/types';
@@ -6,7 +7,7 @@ import Meeting from './meeting';
 
 vi.mock('@/components/ui/avatar', () => ({
   Avatar: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  AvatarImage: ({ src }: { src: string }) => <img src={src} alt='avatar' />,
+  AvatarImage: ({ src }: { src: string }) => <Image src={src} alt='avatar' />,
   AvatarFallback: ({ children }: { children: ReactNode }) => (
     <div>{children}</div>
   ),
