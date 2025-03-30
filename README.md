@@ -36,10 +36,10 @@ A backend Node.js service (likely with WebSockets):
 •	Dockerfile.dev, Dockerfile.prod – Docker configs.
 •	package.json, tsconfig.json – Project configs.
 
-## db/
+### db/
 Likely contains MongoDB-related assets:
 •	keyfile/ – Used for MongoDB replication or security (e.g., in a replica set).
 
-## nginx/
+### nginx/
 Contains Nginx reverse proxy setup:
 •	nginx.conf – Configuration for routing requests to appropriate containers.
