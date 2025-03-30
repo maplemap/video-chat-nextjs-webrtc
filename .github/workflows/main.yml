@@ -2,11 +2,9 @@ name: Build, lint, test
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -34,13 +32,13 @@ jobs:
         run: pnpm install
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Run tests and generate coverage
-        run: npm run test:ci
+        run: pnpm run test:ci
 
       - name: Upload coverage report
         uses: romeovs/lcov-reporter-action@v0.3.1
