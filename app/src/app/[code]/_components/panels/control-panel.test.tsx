@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, userEvent } from '@/lib/test';
+import { PeerUserWithSocketId, ZustandSelector } from '../../../../types';
 import ControlPanel from './control-panel';
 
 const mockPush = vi.fn();
@@ -45,28 +46,50 @@ vi.mock('usehooks-ts', () => ({
   useCopyToClipboard: () => [null, vi.fn(() => Promise.resolve())],
 }));
 
-const mockConnections = {
-  'peer-2': {
-    peerConnection: {
-      getSenders: () => [
-        {
-          track: { kind: 'video' },
-          replaceTrack: vi.fn(),
-        },
-      ],
-    },
-  },
+const mockUser: PeerUserWithSocketId = {
+  id: 'user-1',
+  name: 'Alice',
+  email: 'alice@example.com',
+  image: '',
+  peerId: 'peer-1',
+  muted: false,
+  visible: true,
+  socketId: 'socket-123',
 };
 
-vi.mock('@/hooks/state/use-meeting', () => ({
-  useMeeting: (selector: any) =>
-    selector({
-      meeting: {
-        code: 'abc123xyz',
-      },
-      connections: mockConnections,
-    }),
-}));
+const mockMeeting = {
+  id: 'meeting-1',
+  code: 'abc123',
+  name: 'Test Meeting',
+  ownerId: 'owner-1',
+  createdAt: new Date(),
+};
+
+vi.mock('@/hooks/state/use-meeting', () => {
+  return {
+    useMeeting: (selector: ZustandSelector) =>
+      selector({
+        meeting: mockMeeting,
+        joinStatus: 'idle',
+        joinRequests: [mockUser],
+        connections: {},
+        streamsList: {},
+        mutedList: {},
+        visibleList: {},
+        namesList: {},
+        imagesList: {},
+        setMeeting: vi.fn(),
+        setJoinStatus: vi.fn(),
+        addJoinRequest: vi.fn(),
+        removeJoinRequest: vi.fn(),
+        addConnection: vi.fn(),
+        removeConnection: vi.fn(),
+        setPeerMuted: vi.fn(),
+        setPeerVisible: vi.fn(),
+        reset: vi.fn(),
+      }),
+  };
+});
 
 describe('ControlPanel', () => {
   beforeEach(() => {
