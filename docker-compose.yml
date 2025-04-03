@@ -7,8 +7,8 @@ services:
     restart: always
     command: npm run start
     environment:
-      - NEXTAUTH_URL=http://localhost:${APP_PORT}
-      - NEXT_PUBLIC_SOCKET_SERVER_URL=http://localhost:${APP_PORT}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXT_PUBLIC_SOCKET_SERVER_URL=${NEXT_PUBLIC_SOCKET_SERVER_URL}
       - NODE_ENV=${NODE_ENV}
       - DB_URL=mongodb://${DB_USER}:${DB_PASSWORD}@video-chat-db:27017/${DB_NAME}?authSource=admin&readPreference=primary&ssl=false&replicaSet=rs0
       - AUTH_SECRET=${AUTH_SECRET}
