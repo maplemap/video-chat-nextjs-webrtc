@@ -5,5 +5,5 @@ run: ## Run dev mode
 	 docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p video-chat up --build
 
 prod: ## Run prod mode
-	docker-compose up --build
+	docker compose up --build -d
 
