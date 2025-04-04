@@ -1,5 +1,7 @@
 # Video Chat with Next.js, Typescript, SocketIO, WebRTC
 
+[Live Demo](https://videochat.maplemap.space/)
+
 ## Technologies:
 - Next.js
 - Typescript
