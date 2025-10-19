@@ -19,7 +19,7 @@
 ## How to run the project
 1. Clone the repository
 2. Rename the `.env.example` file to `.env` and fill in the required environment variables
-3. Run `make run` in the root directory
+3. Run `make run` in the root directory and open `http://localhost:{APP_PORT}` where `APP_PORT` is a port which you should define in your `.env` file
 
 ## Project Overview
 This is a monorepo structured project powered by Docker, featuring a Next.js frontend, a Node.js event server, and MongoDB with Nginx as a reverse proxy.
