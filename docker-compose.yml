@@ -35,10 +35,13 @@ services:
     volumes:
       - mongodb4_data:/data/db
       - ./db/keyfile:/opt/keyfile/key:ro
+      - ./db/init-replica.js:/docker-entrypoint-initdb.d/init-replica.js:ro
     healthcheck:
-      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      test: echo 'db.runCommand("ping").ok' | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet --authenticationDatabase admin | grep 1
       interval: 10s
-      start_period: 30s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
     command: >
       mongod --bind_ip_all --keyFile /opt/keyfile/key --replSet rs0
     networks:
